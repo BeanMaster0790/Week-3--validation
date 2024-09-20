@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<body>
+    <h1>Enter An item</h1>
+    <input type="text" id="itemList">
+    <div class="buttons" style="display: inline;">
+        <button onclick="alterList('add')">Add</button>
+        <button onclick="alterList('remove')">Remove</button>
+        <button onclick="alterList('exist')">Exists</button>
+    </div>
+    <p id="result">Wait</p>
+</body>
+
+<script>
+
+    async function alterList(type){
+
+        item = document.getElementById("itemList").value
+
+        d = new data(item, type)
+
+        console.log(d)
+
+        res = await fetch("/alterlist", {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+
+            body: JSON.stringify(d)
+        })
+
+        jsonData = await res.json()
+
+        document.getElementById("result").textContent = jsonData.message
+    }
+
+    class data{
+        constructor(number, option){
+            this.number = number
+            this.option = option
+        }
+    }
+
+</script>
